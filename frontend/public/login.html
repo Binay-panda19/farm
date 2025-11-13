@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Farm Equipment Sharing</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #e6f7e6, #c8e6c9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: #fff;
+      padding: 40px 30px;
+      width: 360px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    .container h2 {
+      color: #2e7d32;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    input {
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    input:focus {
+      border-color: #2e7d32;
+      outline: none;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      background: #2e7d32;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #1b5e20;
+    }
+
+    p {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    a {
+      color: #2e7d32;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <label>Email/Phone:</label>
+      <input type="text" id="identifier" name="email" required>
+
+      <label>Password:</label>
+      <input type="password" id="password" name="password" required>
+
+      <button type="submit">Login</button>
+    </form>
+    <p>Don’t have an account? <a href="signup.html">Sign up</a></p>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const identifier = document.getElementById('identifier').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      // Get user data from localStorage
+      const storedUserJSON = localStorage.getItem('user');
+
+      if (!storedUserJSON) {
+        alert('No user found. Please sign up first.');
+        return;
+      }
+
+      const user = JSON.parse(storedUserJSON); // ✅ This was missing in your code
+
+      // Check login credentials
+      if ((identifier === user.email || identifier === user.phone) && password === user.password) {
+        // Redirect based on role
+        if (user.role === 'owner') {
+          window.location.href = 'dashboard_owner.html';
+        } else if (user.role === 'renter') {
+          window.location.href = 'dashboard_renter.html';
+        } else {
+          alert('Unknown role');
+        }
+      } else {
+        alert('Invalid credentials');
+      }
+    });
+  </script>
+
+</body>
+
+</html>

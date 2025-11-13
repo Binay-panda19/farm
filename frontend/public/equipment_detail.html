@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Equipment Details</title>
+  <style>
+    /* ================================
+   Equipment Detail Page Styles
+=================================== */
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+}
+
+.detail-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+}
+
+.detail-image {
+  flex: 1;
+  min-width: 300px;
+  border-right: 1px solid #e0e0e0;
+  padding: 20px;
+}
+
+.detail-image img {
+  width: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.detail-info {
+  flex: 2;
+  padding: 20px;
+}
+
+.detail-info h2 {
+  color: #2e7d32;
+  margin-top: 0;
+}
+
+.detail-info p {
+  font-size: 16px;
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+.detail-info .price {
+  font-size: 20px;
+  font-weight: bold;
+  color: #388e3c;
+  margin: 15px 0;
+}
+
+.detail-info button {
+  padding: 12px 20px;
+  background: #2e7d32;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.detail-info button:hover {
+  background: #1b5e20;
+}
+
+/* Responsive for smaller screens */
+@media (max-width: 768px) {
+  .detail-container {
+    flex-direction: column;
+    border-right: none;
+  }
+  
+  .detail-image {
+    border-right: none;
+    padding: 20px 20px 0 20px;
+  }
+  
+  .detail-info {
+    padding: 20px;
+  }
+}
+
+
+  </style>
+</head>
+<body>
+  <div class="detail-container">
+    <div class="detail-image">
+      <img src="images/tractor.jpg" alt="Tractor" width="100%">
+    </div>
+    <div class="detail-info">
+      <h2>John Deere Tractor</h2>
+      <p>Powerful tractor suitable for ploughing, tilling, and transportation.</p>
+      <p class="price">₹500 per hour</p>
+      <button onclick="window.location.href='booking.html'">Book Now</button>
+    </div>
+  </div>
+
+  <script src="js/equipment.js"></script>
+
+</body>
+</html>

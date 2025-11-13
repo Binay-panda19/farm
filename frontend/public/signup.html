@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Signup - Farm Equipment Sharing</title>
+  <style>
+    /* ================================
+       Signup Page Styles
+    =================================== */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #f1f8e9, #dcedc8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: #fff;
+      padding: 40px 30px;
+      width: 400px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+
+    .container h2 {
+      color: #388e3c;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    input, select {
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    input:focus, select:focus {
+      border-color: #388e3c;
+      outline: none;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      background: #388e3c;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #2e7d32;
+    }
+
+    p {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    a {
+      color: #388e3c;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Signup</h2>
+    <form id="signupForm">
+      <label>Name:</label>
+      <input type="text" id="name" name="name" required>
+
+      <label>Email:</label>
+      <input type="email" id="email" name="email" required>
+
+      <label>Phone:</label>
+      <input type="tel" id="phone" name="phone" required>
+
+      <label>Password:</label>
+      <input type="password" id="password" name="password" required>
+
+      <label>Role:</label>
+      <select id="role" name="role" required>
+        <option value="owner">Owner</option>
+        <option value="renter">Renter</option>
+      </select>
+
+      <button type="submit">Register</button>
+    </form>
+    <p>Already have an account? <a href="login.html">Login</a></p>
+  </div>
+
+  <script>
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+      const password = document.getElementById('password').value;
+      const role = document.getElementById('role').value;
+
+      // Save to localStorage (simple mock "database")
+      const userData = {
+        name,
+        email,
+        phone,
+        password,
+        role
+      };
+
+      localStorage.setItem('user', JSON.stringify(userData));
+
+      // Redirect to login
+      window.location.href = 'login.html';
+    });
+  </script>
+
+</body>
+</html>
