@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Farmago Payment</title>
+
+    <style>
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: linear-gradient(135deg, #e8f8ef, #d5f2e0);
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        height: 100vh;
+        padding-top: 40px;
+      }
+
+      .payment-card {
+        background: #ffffff;
+        width: 450px;
+        border-radius: 18px;
+        padding: 30px 25px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        animation: fadeIn 0.4s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      h2 {
+        text-align: center;
+        color: #2e7d32;
+        margin-bottom: 20px;
+        letter-spacing: 0.4px;
+      }
+
+      .summary-box {
+        background: #e6f7e6;
+        padding: 18px 20px;
+        border-radius: 12px;
+        margin-bottom: 30px;
+        font-size: 15px;
+      }
+
+      .summary-box h3 {
+        margin-top: 0;
+        color: #1b5e20;
+        margin-bottom: 12px;
+        font-size: 18px;
+      }
+
+      .summary-item {
+        margin: 6px 0;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .qr-box {
+        margin-top: 20px;
+        text-align: center;
+      }
+
+      .qr-box img {
+        width: 180px;
+        border-radius: 10px;
+        border: 2px solid #2e7d32;
+        padding: 5px;
+        background: white;
+      }
+
+      .pay-btn {
+        width: 100%;
+        padding: 14px;
+        font-size: 17px;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        font-weight: bold;
+        color: #fff;
+        background: linear-gradient(135deg, #2e7d32, #1f5d23);
+        box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+        transition: 0.3s;
+        margin-top: 20px;
+        text-decoration: none;
+      }
+
+      .pay-btn a {
+        color: #fff;
+        text-decoration: none;
+      }
+
+      .pay-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 16px rgba(46, 125, 50, 0.4);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="payment-card">
+      <h2>Complete Your Payment</h2>
+
+      <div class="summary-box">
+        <h3>Booking Summary</h3>
+
+        <div class="summary-item">
+          <b>Equipment:</b> <span id="eqName">-</span>
+        </div>
+        <div class="summary-item">
+          <b>Start Date:</b> <span id="startDate">-</span>
+        </div>
+        <div class="summary-item">
+          <b>End Date:</b> <span id="endDate">-</span>
+        </div>
+        <div class="summary-item">
+          <b>Duration:</b> <span id="duration">-</span>
+        </div>
+        <div class="summary-item"><b>Rate:</b> <span id="rate">-</span></div>
+        <hr style="margin: 12px 0; border: 0; border-top: 1px solid #bcdcbc" />
+
+        <div class="summary-item" style="font-size: 17px">
+          <b>Total Cost:</b>
+          <span id="totalPrice" style="color: #2e7d32; font-weight: 700"
+            >₹0</span
+          >
+        </div>
+      </div>
+
+      <div class="qr-box">
+        <p><b>Scan to Pay </b></p>
+        <img
+          src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=FarmagoPayment"
+          alt="QR Code"
+        />
+      </div>
+
+      <button class="pay-btn" onclick="payNow()">Pay Now</button>
+
+      <script src="payments.js"></script>
+    </div>
+  </body>
+</html>

@@ -1,108 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Booking</title>
-  <link rel="stylesheet" href="css/booking.css">
-  <style>
-    body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f5f5f5;
-  color: #333;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
-  padding-top: 50px;
-}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Equipment</title>
 
-.booking-form {
-  background: #fff;
-  padding: 30px 25px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  max-width: 450px;
-  width: 100%;
-}
+    <style>
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: linear-gradient(135deg, #e8f8ef, #d5f2e0);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 30px 20px;
+      }
 
-.booking-form h2 {
-  color: #2e7d32;
-  margin-bottom: 20px;
-  text-align: center;
-}
+      .booking-wrapper {
+        background: #ffffff;
+        padding: 35px 30px;
+        width: 520px;
+        border-radius: 18px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        animation: fadeIn 0.4s ease;
+      }
 
-.booking-form label {
-  display: block;
-  margin-top: 15px;
-  font-weight: 500;
-}
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
 
-.booking-form input,
-.booking-form select {
-  width: 100%;
-  padding: 12px;
-  margin-top: 5px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  outline: none;
-}
+      .equipment-box {
+        background: #f4fff6;
+        border-left: 5px solid #2e7d32;
+        padding: 15px;
+        border-radius: 12px;
+        display: flex;
+        gap: 12px;
+        margin-bottom: 25px;
+      }
 
-.booking-form input:focus,
-.booking-form select:focus {
-  border-color: #2e7d32;
-  box-shadow: 0 0 5px rgba(46, 125, 50, 0.3);
-}
+      .equipment-box img {
+        width: 110px;
+        height: 110px;
+        border-radius: 12px;
+        object-fit: cover;
+      }
 
-.booking-form button {
-  width: 100%;
-  margin-top: 25px;
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
-  background: #2e7d32;
-  color: white;
-  font-size: 18px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
+      .equipment-info h3 {
+        margin: 0;
+        font-size: 20px;
+        color: #2e7d32;
+      }
 
-.booking-form button:hover {
-  background: #1b5e20;
-}
+      .equipment-info p {
+        margin: 4px 0;
+        font-size: 14px;
+        color: #444;
+      }
 
-@media (max-width: 500px) {
-  .booking-form {
-    padding: 25px 15px;
-  }
-}
+      h2 {
+        text-align: center;
+        color: #2e7d32;
+        margin-bottom: 20px;
+        font-size: 26px;
+        letter-spacing: 0.5px;
+      }
 
-  </style>
-</head>
-<body>
-  <div class="booking-form">
-    <h2>Book Equipment</h2>
+      label {
+        font-weight: 600;
+        margin-top: 14px;
+        display: block;
+        color: #333;
+      }
 
-    <form id="bookingForm">
-      <label>Start Date</label>
-      <input type="date" name="start_date" required>
+      input,
+      select {
+        margin-top: 6px;
+        padding: 12px 14px;
+        width: 100%;
+        border-radius: 10px;
+        border: 1px solid #bddfca;
+        font-size: 15px;
+        background: #fdfdfd;
+        transition: 0.25s;
+      }
 
-      <label>End Date</label>
-      <input type="date" name="end_date" required>
+      input:focus,
+      select:focus {
+        border-color: #2e7d32;
+        box-shadow: 0 0 8px rgba(46, 125, 50, 0.3);
+        outline: none;
+      }
 
-      <label>Duration</label>
-      <select name="duration" required>
-        <option value="">Select Duration</option>
-        <option value="Hourly">Hourly</option>
-        <option value="Daily">Daily</option>
-      </select>
+      button {
+        width: 100%;
+        margin-top: 25px;
+        padding: 14px;
+        font-size: 17px;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        font-weight: bold;
+        color: #fff;
+        background: linear-gradient(135deg, #2e7d32, #1f5d23);
+        box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+      }
 
-      <button type="submit">Confirm Booking</button>
-    </form>
-  </div>
+      button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 16px rgba(46, 125, 50, 0.4);
+      }
+    </style>
+  </head>
 
-  <script src="js/booking.js"></script>
-</body>
+  <body>
+    <div class="booking-wrapper">
+      <h2>Book Equipment</h2>
+
+      <!-- EQUIPMENT DETAILS -->
+      <div class="equipment-box" id="equipmentBox">
+        <!-- Filled by JS -->
+      </div>
+
+      <!-- BOOKING FORM -->
+      <form id="bookingForm">
+        <label>Start Date</label>
+        <input type="date" name="start_date" required />
+
+        <label>End Date</label>
+        <input type="date" name="end_date" required />
+
+        <label>Duration</label>
+        <select name="duration" required>
+          <option value="">Select Duration</option>
+          <option value="Hourly">Hourly</option>
+          <option value="Daily">Daily</option>
+        </select>
+
+        <button type="submit">Confirm Booking</button>
+      </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+    <script>
+      (function () {
+        emailjs.init("mETUCVWUuELALUSku");
+      })();
+    </script>
+
+    <script src="booking.js"></script>
+  </body>
 </html>

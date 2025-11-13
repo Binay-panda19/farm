@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Login - Farm Equipment Sharing</title>
+    <title>Login - Farmago</title>
 
     <style>
       body {
@@ -13,6 +13,24 @@
         justify-content: center;
         align-items: center;
         height: 100vh;
+      }
+
+      /* Back Button */
+      .back-btn {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background: #2e7d32;
+        color: white;
+        padding: 10px 18px;
+        border-radius: 6px;
+        font-size: 14px;
+        text-decoration: none;
+        transition: 0.3s;
+      }
+
+      .back-btn:hover {
+        background: #1b5e20;
       }
 
       .container {
@@ -66,7 +84,11 @@
       }
     </style>
   </head>
+
   <body>
+    <!-- BACK TO HOME BUTTON -->
+    <a href="../pages/index.html" class="back-btn">⬅ Back to Home</a>
+
     <div class="container">
       <h2>Login</h2>
 
@@ -93,5 +115,12 @@
     </div>
 
     <script src="auth.js"></script>
+
+    <!-- Back Button Functionality (Optional JS version) -->
+    <script>
+      function goBackHome() {
+        window.location.href = "../pages/index.html";
+      }
+    </script>
   </body>
 </html>

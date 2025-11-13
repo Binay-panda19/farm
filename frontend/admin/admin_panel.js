@@ -1,54 +1,61 @@
-// admin_panel.js
-
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("Admin panel loaded.");
 
   // 1️⃣ Handle Approve/Reject buttons
   const actionButtons = document.querySelectorAll(".action-btn");
 
-  actionButtons.forEach(btn => {
+  actionButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
-      const action = btn.classList.contains("approve") ? "Approved" : "Rejected";
+      const isApprove = btn.classList.contains("approve");
+      const action = isApprove ? "Approved" : "Rejected";
 
-      // Find the table row
       const row = btn.closest("tr");
-      const itemName = row.cells[0].innerText;
+      const statusCell = row.cells[3] || row.cells[4] || row.cells[5]; // Auto-detect
 
-      // Update status in table dynamically
-      row.cells[3].innerText = action;
+      statusCell.innerText = action;
 
-      alert(`${itemName} has been ${action.toLowerCase()}.`);
+      alert(`${row.cells[0].innerText} has been ${action.toLowerCase()}.`);
 
-      // Optional: disable buttons after action
-      btn.closest("td").querySelectorAll(".action-btn").forEach(b => b.disabled = true);
-
-      // TODO: Integrate with backend API here
-      // Example:
-      // fetch('/api/admin/update', { method: 'POST', body: JSON.stringify({id, action}) })
+      // Disable both buttons
+      btn
+        .closest("td")
+        .querySelectorAll(".action-btn")
+        .forEach((b) => (b.disabled = true));
     });
   });
 
-  // 2️⃣ Handle row click for booking details
-  const bookingRows = document.querySelectorAll(".table-container:nth-child(3) tbody tr"); // 3rd table = Booking Management
-  bookingRows.forEach(row => {
+  // 2️⃣ Booking row click — show details
+  const bookingRows = document.querySelectorAll("#bookingTable tbody tr");
+
+  bookingRows.forEach((row) => {
     row.addEventListener("click", () => {
       const equipment = row.cells[0].innerText;
       const renter = row.cells[1].innerText;
       const owner = row.cells[2].innerText;
-      const startDate = row.cells[3].innerText;
-      const endDate = row.cells[4].innerText;
+      const start = row.cells[3].innerText;
+      const end = row.cells[4].innerText;
       const status = row.cells[5].innerText;
 
-      alert(`Booking Details:\nEquipment: ${equipment}\nRenter: ${renter}\nOwner: ${owner}\nStart: ${startDate}\nEnd: ${endDate}\nStatus: ${status}`);
+      alert(
+        `Booking Details:\nEquipment: ${equipment}\nRenter: ${renter}\nOwner: ${owner}\nStart: ${start}\nEnd: ${end}\nStatus: ${status}`
+      );
     });
   });
 
-  // 3️⃣ Optional: Highlight pending approvals
-  const tables = document.querySelectorAll(".table-container table tbody tr");
-  tables.forEach(row => {
-    const statusCell = row.cells[3]; // Status column
-    if (statusCell && statusCell.innerText.toLowerCase() === "pending") {
-      row.style.backgroundColor = "#fffde7"; // Light yellow highlight
+  // 3️⃣ Highlight pending rows
+  const rows = document.querySelectorAll(".table-container table tbody tr");
+
+  rows.forEach((row) => {
+    const statusCell = [...row.cells].find(
+      (cell) => cell.innerText.toLowerCase() === "pending"
+    );
+
+    if (statusCell) {
+      row.style.backgroundColor = "#fffde7"; // soft yellow
     }
   });
-
 });
+
+function logout() {
+  window.location.href = "../auth/login.html";
+}

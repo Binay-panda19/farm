@@ -1,86 +1,100 @@
-// dashboard_renter.js
-
-/**document.addEventListener("DOMContentLoaded", () => {
-
-  // Example: handle table row click to view booking info
-  const bookingRows = document.querySelectorAll(".table-container tbody tr");
-  bookingRows.forEach(row => {
-    row.addEventListener("click", () => {
-      const equipment = row.cells[0].innerText;
-      const owner = row.cells[1].innerText;
-      const startDate = row.cells[2].innerText;
-      const endDate = row.cells[3].innerText;
-      const status = row.cells[4].innerText;
-
-      alert(`Booking Info:\nEquipment: ${equipment}\nOwner: ${owner}\nStart: ${startDate}\nEnd: ${endDate}\nStatus: ${status}`);
-    });
-  });
-
-  // Example: update summary cards dynamically
-  const upcomingCard = document.querySelector(".cards .card:nth-child(1) p");
-  const completedCard = document.querySelector(".cards .card:nth-child(2) p");
-  const totalPaymentCard = document.querySelector(".cards .card:nth-child(3) p");
-
-  // Simulate fetching data
-  const upcoming = 2;
-  const completed = 5;
-  const totalPaid = 18500;
-
-  upcomingCard.innerText = upcoming;
-  completedCard.innerText = completed;
-  totalPaymentCard.innerText = `₹${totalPaid}`;
-});**/
-
 document.addEventListener("DOMContentLoaded", () => {
-  const token = localStorage.getItem("token");
-  const role = localStorage.getItem("role");
+  const activeUser = JSON.parse(localStorage.getItem("activeUser"));
+  const bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+  const equipment = JSON.parse(localStorage.getItem("equipment")) || [];
+  const users = JSON.parse(localStorage.getItem("users")) || [];
 
-  if (!token || role !== "renter") {
-    alert("Access denied. Please login as Renter.");
-    window.location.href = "login.html";
+  if (!activeUser || activeUser.role !== "renter") {
+    alert("Access denied. Login as renter.");
+    window.location.href = "../auth/login.html";
+    return;
   }
 
-  const equipmentList = document.querySelector("#renter-equipment-list");
+  // Fill sidebar profile data
+  document.getElementById("sidebarName").innerText = activeUser.name;
+  document.getElementById("sidebarEmail").innerText = activeUser.email;
+  document.getElementById("sidebarPhone").innerText =
+    activeUser.phone || "Not added";
 
-  // Fetch available equipment
-  async function fetchEquipment() {
-    try {
-      const res = await fetch("http://localhost:5000/api/equipment", {
-        headers: { "Authorization": `Bearer ${token}` }
-      });
-      const data = await res.json();
-      equipmentList.innerHTML = "";
+  const totalUserBookings = bookings.filter(
+    (b) => b.renterId === activeUser.id
+  ).length;
+  document.getElementById("sidebarBookings").innerText = totalUserBookings;
 
-      if (res.ok) {
-        data.forEach(eq => {
-          const div = document.createElement("div");
-          div.classList.add("equipment-card");
-          div.innerHTML = `
-            <h3>${eq.name}</h3>
-            <p>Type: ${eq.type}</p>
-            <p>Price: ₹${eq.price}</p>
-            <p>Location: ${eq.location}</p>
-            <button class="book-btn" data-id="${eq.id}">Book Now</button>
-          `;
-          equipmentList.appendChild(div);
-        });
+  // Optional: avatar based on role
+  document.getElementById("avatarImg").src =
+    activeUser.role === "renter"
+      ? "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+      : "https://cdn-icons-png.flaticon.com/512/4333/4333609.png";
 
-        // Add event listeners for booking buttons
-        document.querySelectorAll(".book-btn").forEach(btn => {
-          btn.addEventListener("click", () => {
-            const eqId = btn.getAttribute("data-id");
-            window.location.href = `booking.html?equipmentId=${eqId}`;
-          });
-        });
-      } else {
-        alert(data.msg || "Failed to fetch equipment");
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Server error while fetching equipment");
+  const pendingTable = document.querySelector("#pendingTable tbody");
+  const approvedTable = document.querySelector("#approvedTable tbody");
+  const historyTable = document.querySelector("#historyTable tbody");
+
+  const renterBookings = bookings.filter((b) => b.renterId === activeUser.id);
+
+  pendingTable.innerHTML = "";
+  approvedTable.innerHTML = "";
+  historyTable.innerHTML = "";
+
+  renterBookings.forEach((b) => {
+    let owner = users.find((u) => u.id === b.ownerId);
+
+    // fallback owner
+    if (!owner) {
+      owner = users.find((u) => u.role === "owner") || { name: "Owner" };
     }
-  }
 
-  fetchEquipment();
+    let row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${b.equipmentName || "N/A"}</td>
+      <td>${owner.name || "N/A"}</td>
+      <td>${b.startDate || "-"}</td>
+      <td>${b.endDate || "-"}</td>
+      <td>${b.status || "-"}</td>
+    `;
+
+    const status = b.status.toLowerCase().trim();
+
+    if (status === "pending") {
+      row.innerHTML += `
+        <td><button class="action cancel" onclick="cancelBooking(${b.id})">Cancel</button></td>`;
+      pendingTable.appendChild(row);
+    } else if (status === "approved") {
+      row.innerHTML += `
+        <td><button class="action pay" onclick="goToPayment(${b.id})">Pay Now</button></td>`;
+      approvedTable.appendChild(row);
+    } else {
+      historyTable.appendChild(row);
+    }
+  });
 });
 
+// Cancel booking
+function cancelBooking(id) {
+  let bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+  bookings = bookings.filter((b) => b.id !== id);
+  localStorage.setItem("bookings", JSON.stringify(bookings));
+  alert("Booking cancelled.");
+  location.reload();
+}
+
+//payment
+function goToPayment(id) {
+  const bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+  const b = bookings.find((b) => b.id === id);
+  const amount = b.price || 2000;
+
+  window.location.href = `/frontend/payment/payment.html?bookingId=${id}&amount=${amount}`;
+}
+
+// Logout
+function logout() {
+  localStorage.removeItem("activeUser");
+  window.location.href = "../auth/login.html";
+}
+
+// Sidebar toggle
+function toggleSidebar() {
+  document.getElementById("sidebarBox").classList.toggle("active");
+}

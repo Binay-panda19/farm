@@ -1,159 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Equipment List</title>
-  <style>
-    /* ================================
-   Equipment Listing Page Styles
-=================================== */
+  <head>
+    <meta charset="UTF-8" />
+    <title>Available Equipment</title>
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f5f5f5;
-  color: #333;
-}
+    <style>
+      /* =============================
+       GLOBAL STYLES
+    ============================== */
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: linear-gradient(to bottom, #f1fdf4, #e7f5ea);
+        color: #333;
+      }
 
-header {
-  background: #2f855a;
-  color: white;
-  padding: 15px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+      /* =============================
+       HEADER STYLING
+    ============================== */
+      header {
+        background: #2f855a;
+        color: white;
+        padding: 18px 35px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+      }
 
-header h2 {
-  margin: 0;
-  font-size: 24px;
-}
+      header h2 {
+        margin: 0;
+        font-size: 26px;
+        letter-spacing: 0.5px;
+      }
 
-header nav a {
-  color: white;
-  margin-left: 15px;
-  text-decoration: none;
-  font-weight: 500;
-}
+      header nav a {
+        color: white;
+        margin-left: 20px;
+        text-decoration: none;
+        font-size: 15px;
+        font-weight: bold;
+        opacity: 0.9;
+        transition: 0.2s;
+      }
 
-header nav a:hover {
-  text-decoration: underline;
-}
+      header nav a:hover {
+        opacity: 1;
+        text-decoration: underline;
+      }
 
-#filters {
-  padding: 15px 20px;
-  background: #e6f7e6;
-  display: flex;
-  justify-content: flex-start;
-  gap: 10px;
-  flex-wrap: wrap;
-}
+      /* =============================
+       SEARCH + FILTER SECTION
+    ============================== */
+      #filters {
+        padding: 20px 35px;
+        background: #e6f7e6;
+        display: flex;
+        justify-content: flex-start;
+        gap: 15px;
+        flex-wrap: wrap;
+        border-bottom: 2px solid #d7efd7;
+      }
 
-#filters input {
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  flex: 1;
-  min-width: 200px;
-}
+      #filters input {
+        padding: 12px 16px;
+        border-radius: 10px;
+        border: 1px solid #bcdcbc;
+        font-size: 15px;
+        flex: 1;
+        min-width: 240px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        transition: 0.2s;
+      }
 
-#filters button {
-  padding: 10px 15px;
-  border: none;
-  border-radius: 6px;
-  background: #2f855a;
-  color: white;
-  cursor: pointer;
-  transition: 0.3s;
-}
+      #filters input:focus {
+        outline: none;
+        border-color: #2f855a;
+        box-shadow: 0 0 8px rgba(47, 133, 90, 0.3);
+      }
 
-#filters button:hover {
-  background: #276749;
-}
+      #filters button {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 10px;
+        background: #2f855a;
+        color: white;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: 600;
+        transition: 0.25s;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      }
 
-#equipmentList {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
-  padding: 20px;
-}
+      #filters button:hover {
+        background: #276749;
+        transform: translateY(-2px);
+      }
 
-.card {
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0px 3px 8px rgba(0,0,0,0.1);
-  transition: transform 0.2s;
-}
+      /* =============================
+       EQUIPMENT GRID
+    ============================== */
+      #equipmentList {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+        gap: 25px;
+        padding: 30px 35px;
+      }
 
-.card:hover {
-  transform: translateY(-5px);
-}
+      /* =============================
+       CARD STYLING
+    ============================== */
+      .card {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
+        transition: 0.28s ease;
+        border: 1px solid #def2de;
+      }
 
-.card img {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-}
+      .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.18);
+      }
 
-.card h3 {
-  margin: 10px;
-  color: #2f855a;
-  font-size: 18px;
-}
+      .card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-bottom: 1px solid #eee;
+      }
 
-.card p {
-  margin: 5px 10px;
-  font-size: 14px;
-  color: #555;
-}
+      .card h3 {
+        margin: 12px 15px 5px;
+        color: #2f855a;
+        font-size: 19px;
+        font-weight: bold;
+      }
 
-.card a.btn {
-  display: inline-block;
-  margin: 10px;
-  padding: 8px 12px;
-  background: #2f855a;
-  color: white;
-  text-decoration: none;
-  border-radius: 6px;
-  transition: 0.3s;
-}
+      .card p {
+        margin: 6px 15px;
+        font-size: 14px;
+        color: #555;
+      }
 
-.card a.btn:hover {
-  background: #276749;
-}
+      .card a.btn {
+        display: inline-block;
+        margin: 15px;
+        padding: 10px 14px;
+        background: #2f855a;
+        color: white;
+        text-decoration: none;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        transition: 0.25s;
+      }
 
-/* Responsive */
-@media (max-width: 600px) {
-  #filters {
-    flex-direction: column;
-  }
-  #filters input, #filters button {
-    width: 100%;
-  }
-}
+      .card a.btn:hover {
+        background: #276749;
+        transform: translateY(-2px);
+      }
 
+      /* Responsive */
+      @media (max-width: 600px) {
+        #filters {
+          flex-direction: column;
+        }
+        #filters input,
+        #filters button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
 
-  </style>
-</head>
-<body>
-  <header>
-    <h2>Available Equipment</h2>
-    <nav>
-      <a href="dashboard_owner.html">Dashboard</a>
-      <a href="profile.html">Profile</a>
-    </nav>
-  </header>
+  <body>
+    <!-- HEADER -->
+    <header>
+      <h2>Available Equipment</h2>
+      <nav>
+        <a href="../dashboard/dashboard_owner.html">Dashboard</a>
+        <a href="profile.html">Profile</a>
+      </nav>
+    </header>
 
-  <main>
-    <div id="filters">
-      <input type="text" id="searchBox" placeholder="Search equipment...">
-      <button onclick="loadEquipment()">Search</button>
-    </div>
+    <!-- FILTERS -->
+    <main>
+      <div id="filters">
+        <input type="text" id="searchBox" placeholder="Search equipment..." />
+        <button onclick="loadEquipment()">Search</button>
+      </div>
 
-    <div id="equipmentList" class="grid"></div>
-  </main>
+      <!-- EQUIPMENT LIST -->
+      <div id="equipmentList"></div>
+    </main>
 
-  <script src="js/equipment.js"></script>
-</body>
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script>
+      (function () {
+        emailjs.init("WCtZX7Mk24cGdvlZ1");
+      })();
+    </script>
+
+    <script src="../util/email.js"></script>
+    <script src="equipment.js"></script>
+  </body>
 </html>
